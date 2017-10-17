@@ -386,3 +386,80 @@ manipulate(power.test(mu0, muA, sigma, alpha, type, alternative), mu0 = slider(-
     type = picker("two.sample", "one.sample", "paired"))
 ```
 
+#Module 12
+install.packages("lmodel2")
+install.packages("gridExtra")
+
+
+##Introduction to Linear Regression
+##Covariance and Correlation
+
+```{r}
+library(curl)
+library(ggplot2)
+f <- curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN597_Fall17/zombies.csv")
+d <- read.csv(f, header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(d)
+```
+
+```{r}
+plot(data = d, height ~ weight)
+```
+CHALLENGE:
+
+What is the covariance between zombie weight and zombie height? What does it mean if the covariance is positive versus negative? Does it matter if you switch the order of the two variables?
+```{r}
+w <- d$weight
+h <- d$height
+n <- length(w)  # or length(h)
+cov_wh <- sum((w - mean(w)) * (h - mean(h)))/(n - 1)
+cov_wh
+```
+
+```{r}
+cov(w, h)
+```
+CHALLENGE:
+
+Calculate the correlation between zombie height and weight.
+```{r}
+sd_w <- sd(w)
+sd_h <- sd(h)
+cor_wh <- cov_wh/(sd_w * sd_h)
+cor_wh
+```
+
+```{r}
+cor(w, h)
+```
+This formulation of the correlation coefficient is referred to as Pearson’s product-moment correlation coefficient and is often abbreviated as ρρ.
+
+There are other, nonparametric forms of the correlation coefficient we might also calculate
+```{r}
+cor(w, h, method = "kendall")
+```
+
+```{r}
+cor(w, h, method = "spearman")
+```
+##Regression
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
