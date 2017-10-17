@@ -8,11 +8,13 @@ output: html_notebook
 
 What is True	  What We Decide	  Result
 H0	          H0	          Correctly ‘accept’ the null
-H0H0	          HAHA           	Falsely reject the null (Type I error)
-HAHA	          H0H0	          Falsely ‘accept’ the null (Type II error)
-HAHA          	HAHA          	Correctly reject the null
-
+H0	          HA          	Falsely reject the null (Type I error)
+HA  	        H0	          Falsely ‘accept’ the null (Type II error)
+HA          	HA          	Correctly reject the null
+alpha - frequency of type 1 error (i.e. 5%, a=0.05)
+beta - frequency of type 2 error (not typically known)
 ##Type I Error
+Multiple testing problem - if rate of type 1 error is 1 in 20, repeating multiple t-tests increases the rate of having a type 1 error in the tests. 
 
 ```{r}
 typeI <- function(mu0, sigma, n, alternative = "two.tailed", alpha = 0.05, k = 10000) {
@@ -343,6 +345,7 @@ manipulate(power.plot(sigma, muA, mu0, n, alpha, alternative), sigma = slider(1,
     mu0 = slider(-10, 10, step = 1, initial = 0), n = slider(1, 50, step = 1, 
         initial = 16), alpha = slider(0.01, 0.1, step = 0.01, initial = 0.05), 
     alternative = picker("two.tailed", "greater", "less"))
+#use bootstrapping to help find the power. 
 ```
 
 ```{r}
@@ -386,7 +389,7 @@ manipulate(power.test(mu0, muA, sigma, alpha, type, alternative), mu0 = slider(-
     type = picker("two.sample", "one.sample", "paired"))
 ```
 
-#Module 12
+#Module 12 -- Only use model 1 (OLS) if you are really secure on the measurement of x 
 install.packages("lmodel2")
 install.packages("gridExtra")
 
@@ -722,6 +725,8 @@ Again, here the CI band shows where the mean height is expected to fall in 95% o
 
 
 ##Residuals
+
+If there is structure in residuals - it means there is a variable that needs to be measured becuase its having an effect on the variables you have measured.
 ```{r}
 
 ```
