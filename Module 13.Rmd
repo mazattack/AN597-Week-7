@@ -6,7 +6,6 @@ output: html_document
 ---
 
 ```{r}
-install.packages("car")
 library(car)
 library(curl)
 ```
@@ -70,14 +69,6 @@ legend("top", c("df1=1,df2=1", "df1=2,df2=2", "df1=4,df2=4", "df1=8,df2=6",
 
 fcrit <- qf(p = 0.95, df1 = 1, df2 = 998)
 fcrit
-abline(v = fcrit)
-abline(h = 0)
-polygon(cbind(c(fcrit, seq(from = fcrit, to = 10, length.out = 1000), 8), c(0, 
-    df(seq(from = fcrit, to = 8, length.out = 1000), df1 = 1, df2 = 998), 0)), 
-    border = "black", col = "grey")
-```
-
-```{r}
 abline(v = fcrit)
 abline(h = 0)
 polygon(cbind(c(fcrit, seq(from = fcrit, to = 10, length.out = 1000), 8), c(0, 
@@ -293,3 +284,70 @@ model <- lm(data = d, logWeaningAge ~ logFemaleBodyMass)
 summary(model)
 ```
 
+```{r}
+plot(model)
+```
+
+```{r}
+qqPlot(model$residuals)
+
+```
+```{r}
+s <- shapiro.test(model$residuals)
+s
+```
+The following chart and graphs shows some other common numerical transformations that are often useful for changing a variable’s distribution to more closely approximate the normal.
+
+```{r}
+par(mfrow = c(1, 2))
+
+a <- 2
+b <- 2
+
+# log x
+x <- seq(from = 0, to = 100, length.out = 1000)
+y <- a + b * log(x)
+plot(x, y, type = "l", main = "untransformed")
+plot(log(x), y, type = "l", main = "log(x)")
+```
+```{r}
+# log y
+x <- seq(from = 0, to = 10, length.out = 1000)
+y <- exp(a + b * x)
+plot(x, y, type = "l", main = "untransformed")
+plot(x, log(y), type = "l", main = "log(y)")
+```
+
+```{r}
+# assymptotic
+x <- seq(from = 1, to = 100, length.out = 100)
+y <- (a * x)/(1 + b * x)
+plot(x, y, type = "l", main = "untransformed")
+plot(1/x, y, type = "l", main = "1/x")
+```
+```{r}
+# reciprocal
+x <- seq(from = 1, to = 100, length.out = 100)
+y <- a + b/x
+plot(x, y, type = "l", main = "untransformed")
+plot(1/x, y, type = "l", main = "1/x")
+
+```
+
+```{r}
+# power
+x <- seq(from = 1, to = 100, length.out = 100)
+y <- a * x^b
+plot(x, y, type = "l", main = "untransformed")
+plot(x^b, y, type = "l", main = "x^b")
+```
+```{r}
+# exp
+x <- seq(from = 1, to = 10, length.out = 100)
+y <- a * exp(b * x)
+plot(x, y, type = "l", main = "untransformed")
+plot(x, log(y), type = "l", main = "log(y)")
+```
+Uniformly transforming a dataset is the most common way of attempting to squeeze your data into matching the normal distribution so that you can use parametric statistics. This is a very common practice, and there is much written on the topic, including its drawbacks.
+
+For a good discussion on common transformations, see R in Action Chapter 8.5 (Corrective measures), and please do note A caution concerning transformations (p. 200). When trying out transformations, keep your normalization tests handy so that you can retest the transformed data and see if the transformation achieved it’s intended purpose.
